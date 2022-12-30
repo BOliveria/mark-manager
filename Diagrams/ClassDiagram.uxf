@@ -1,0 +1,61 @@
+<diagram program="umletino" version="15.0.0"><zoom_level>10</zoom_level><element><id>UMLClass</id><coordinates><x>490</x><y>1</y><w>100</w><h>30</h></coordinates><panel_attributes>User</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>830</x><y>221</y><w>150</w><h>40</h></coordinates><panel_attributes>Database (txt file)</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>720</x><y>581</y><w>350</w><h>200</h></coordinates><panel_attributes>Course
+Package::Util
+--
+- courseName : String
+- marks : HashMap&lt;String, Mark&gt;
+- average : float
+--
+- calculateAverage() : float
++ getName() : String
++ getMarks() : HashMap&lt;String, Mark&gt;
++ getAverage() : float
++ addMark(String name, float mark, float percent) : boolean
++ deleteMark(String name) : boolean</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>390</x><y>591</y><w>180</w><h>150</h></coordinates><panel_attributes>Mark
+Package::Util
+--
+- markName : String
+- mark : float
+- percentage : float
+--
++ getMark() : float
++ getName() : String
++ getPercentage() : float</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>770</x><y>351</y><w>260</w><h>130</h></coordinates><panel_attributes>Courses *Visitor Design*
+Package::Util
+--
+- courses : hashMap&lt;String, Course&gt;
+--
++ getCourses() : hashMap&lt;String, Course&gt;
++ getCourse(String courseName) : Course
++ addCourse(String name) : boolean
++ deleteCourse(String name) : boolean</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>390</x><y>151</y><w>280</w><h>170</h></coordinates><panel_attributes>MainView *State, Singleton Design*
+Package::View
+--
+- GUI_Elements : Java *Command Design*
+- courseState : Course
+- copyOfCourseList : Courses
+- database : String
+--
+- refresh() : void
+- close() : void **For closing the txt file**
+- switch(String courseName) : void</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>60</x><y>191</y><w>180</w><h>90</h></coordinates><panel_attributes>PopupView *Builder Design*
+Package::View
+--
+- GUI_Elements : Java
+--
+- display() : void</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>530</x><y>21</y><w>70</w><h>150</h></coordinates><panel_attributes>lt=-
+m1=1
+m2=1
+Uses v</panel_attributes><additional_attributes>10;10;10;130</additional_attributes></element><element><id>Relation</id><coordinates><x>230</x><y>221</y><w>180</w><h>40</h></coordinates><panel_attributes>lt=&lt;.
+Calls when needed</panel_attributes><additional_attributes>10;20;160;20</additional_attributes></element><element><id>UMLClass</id><coordinates><x>50</x><y>101</y><w>130</w><h>40</h></coordinates><panel_attributes>ConfirmationPopup</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>200</x><y>101</y><w>80</w><h>40</h></coordinates><panel_attributes>ErrorPopup</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>190</x><y>131</y><w>70</w><h>80</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>50;10;50;40;10;40;10;60</additional_attributes></element><element><id>Relation</id><coordinates><x>60</x><y>131</y><w>90</w><h>80</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;40;70;40;70;60</additional_attributes></element><element><id>Relation</id><coordinates><x>660</x><y>221</y><w>190</w><h>50</h></coordinates><panel_attributes>lt=-
+m1=1
+m2=1
+Reads from &gt;</panel_attributes><additional_attributes>10;20;170;20</additional_attributes></element><element><id>Relation</id><coordinates><x>890</x><y>241</y><w>90</w><h>130</h></coordinates><panel_attributes>lt=-
+m1=1
+m2=1
+Contains v</panel_attributes><additional_attributes>10;10;10;110</additional_attributes></element><element><id>Relation</id><coordinates><x>890</x><y>471</y><w>90</w><h>130</h></coordinates><panel_attributes>lt=-
+m1=1
+m2=0..*
+Contains v</panel_attributes><additional_attributes>10;10;10;110</additional_attributes></element><element><id>Relation</id><coordinates><x>560</x><y>671</y><w>180</w><h>50</h></coordinates><panel_attributes>lt=-
+m1=1
+m2=0..*
+&lt; Contains</panel_attributes><additional_attributes>160;20;10;20</additional_attributes></element></diagram>

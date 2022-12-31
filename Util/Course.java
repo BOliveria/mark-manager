@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.util.HashMap;
 
-public class Course {
+public class Course implements Serializable {
     
     private String courseName;
     private HashMap<String, Mark> marks;
@@ -46,29 +47,19 @@ public class Course {
     public double calculateAverage() {
 
         this.average = 0;
-        float percentLeft = 100;
+        int count = 0;
 
         for (Mark evaluation : marks.values()) {
-            percentLeft -= evaluation.getPercentage();
-            this.average += evaluation.getMark() * evaluation.getPercentage();
+            this.average += evaluation.getMark();
+            count++;
         }
 
-        this.average += percentLeft * 100;
+        this.average = this.average/count;
+        this.average = Math.round(this.average * 100.0) / 100.0;
 
         return this.average;
     }
 
-    public static void main(String[] args) {
-        Course tmp = new Course("CS1026");
-        if (tmp.addMark("Test", 80.0, 0.10)) {
-            System.out.println("Woot woot");
-        } else {
-            System.out.println("Darn");
-        }
-
-        System.out.println(tmp.calculateAverage());
-    
-    }
 }
 
 

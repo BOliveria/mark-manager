@@ -22,12 +22,13 @@ public class MainView {
     private double screenHeight;
 
     MainView() {
-        screenWidth = Toolkit.getDefaultToolkit().getScreenSize().getWidth()/1.5;
-        screenHeight = Toolkit.getDefaultToolkit().getScreenSize().getHeight()/1.5;
+        screenWidth = Toolkit.getDefaultToolkit().getScreenSize().getWidth()/1.2;
+        screenHeight = Toolkit.getDefaultToolkit().getScreenSize().getHeight()/1.2;
         
         mainWindow = new JFrame();
         mainWindow.setTitle("Mark Manager");
         mainWindow.setLayout(null);
+        mainWindow.setLocationRelativeTo(null);
 
         topPanel = new JPanel();
 
@@ -56,7 +57,7 @@ public class MainView {
         JButton addMarkButton = new JButton("Add Mark     ");
         JTextField inputName, inputMark, inputWorth;
         inputName = new JTextField("Evaluation Name   ");
-        inputMark = new JTextField("Grade Recieved   ");
+        inputMark = new JTextField("Grade Received   ");
         inputWorth = new JTextField("Percentage (ie. 0.5)   ");
         addMarkPanel.add(addMarkButton);
         addMarkPanel.add(inputName);

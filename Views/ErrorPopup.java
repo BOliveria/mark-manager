@@ -1,27 +1,28 @@
 import javax.swing.*;
 import java.awt.*;
 
-public class ConfirmPopup extends Popup {
-
+public class ErrorPopup extends Popup {
+    
     private JFrame window;
     private JLabel message;
     private double windowWidth;
     private double windowHeight;
 
-    ConfirmPopup() {
+    ErrorPopup() {
 
         windowWidth = Toolkit.getDefaultToolkit().getScreenSize().getWidth();
         windowWidth = windowWidth/3;
         windowHeight = Toolkit.getDefaultToolkit().getScreenSize().getHeight();
         windowHeight = windowHeight/6;
-        
+
     }
 
     void display() {
-        window = new JFrame("Confirmation Window");
+
+        window = new JFrame("Error Window");
         window.setLayout(new FlowLayout());
 
-        message =  new JLabel("Record has been successfully added to the database!");
+        message = new JLabel("Something went wrong. Please try again.");
 
         window.add(message);
         window.setSize((int)windowWidth, (int)windowHeight);

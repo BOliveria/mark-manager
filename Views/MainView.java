@@ -5,8 +5,6 @@ public class MainView {
 
     private JFrame mainWindow;
 
-    private JComboBox courseSelection;
-
     private JPanel topPanel;
     private JPanel addCoursePanel;
     private JPanel deleteCoursePanel;
@@ -16,11 +14,15 @@ public class MainView {
     private JPanel averagePanel;
 
     private JPanel bottomPanel;
-    
 
     private double screenWidth;
     private double screenHeight;
 
+    private JComboBox courseSelection;
+    private Course state;
+    private Courses copyOfCourses;
+    private String databaseFilePath;
+    
     MainView() {
         screenWidth = Toolkit.getDefaultToolkit().getScreenSize().getWidth()/1.2;
         screenHeight = Toolkit.getDefaultToolkit().getScreenSize().getHeight()/1.2;
@@ -28,7 +30,6 @@ public class MainView {
         mainWindow = new JFrame();
         mainWindow.setTitle("Mark Manager");
         mainWindow.setLayout(null);
-        mainWindow.setLocationRelativeTo(null);
 
         topPanel = new JPanel();
 

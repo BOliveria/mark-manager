@@ -1,5 +1,8 @@
 import java.io.Serializable;
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
 import java.util.HashMap;
+
 
 public class Courses implements Serializable {
     
@@ -28,6 +31,18 @@ public class Courses implements Serializable {
             return true;
         } else {
             return false;
+        }
+    }
+
+    public void writeToDatabase(String filePath) {
+        try {
+            FileOutputStream fileOut = new FileOutputStream(filePath);
+            ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
+            objectOut.writeObject(this);
+            objectOut.close();
+        } catch (Exception e) {
+            Popup errorMsg = new ErrorPopup();
+            errorMsg.display();
         }
     }
     

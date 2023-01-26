@@ -1,17 +1,38 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 
-public class MainView {
+public class MainView implements ActionListener{
 
     private JFrame mainWindow;
 
     private JPanel topPanel;
+
     private JPanel addCoursePanel;
+    private JButton addCourseButton;
+    private JTextField inputNewCourse;
+
     private JPanel deleteCoursePanel;
+    private JButton deleteCourseButton;
+    private JTextField inputDelete;
+
     private JPanel switchCoursePanel;
+    private JButton switchButton;
+
     private JPanel addMarkPanel;
+    private JButton addMarkButton;
+    private JTextField inputName, inputMark, inputWorth;
+
     private JPanel deleteMarkPanel;
+    private JButton deleteMarkButton;
+    private JTextField inputMarkDelete;
+
     private JPanel averagePanel;
+    private JLabel averageLabel, averageItself;
+
 
     private JPanel bottomPanel;
 
@@ -21,9 +42,21 @@ public class MainView {
     private JComboBox courseSelection;
     private Course state;
     private Courses copyOfCourses;
-    private String databaseFilePath;
+    public static String databaseFilePath;
     
-    MainView() {
+    MainView() throws IOException {
+
+        databaseFilePath = System.getProperty("user.dir") + "/Util/database.txt";
+        BufferedReader br = new BufferedReader(new FileReader(databaseFilePath));
+        
+        if (br.readLine() == null) {
+            copyOfCourses = new Courses();
+            br.close();
+        } else {
+            copyOfCourses = Courses.readFromDatabase(databaseFilePath);
+            br.close();
+        }
+
         screenWidth = Toolkit.getDefaultToolkit().getScreenSize().getWidth()/1.2;
         screenHeight = Toolkit.getDefaultToolkit().getScreenSize().getHeight()/1.2;
         
@@ -34,29 +67,29 @@ public class MainView {
         topPanel = new JPanel();
 
         addCoursePanel = new JPanel();
-        JButton addCourseButton = new JButton("Add Course     ");
-        JTextField inputNewCourse = new JTextField("Name of course     ");
+        addCourseButton = new JButton("Add Course     ");
+        inputNewCourse = new JTextField("Name of course     ");
         addCoursePanel.add(addCourseButton);
         addCoursePanel.add(inputNewCourse);
         addCourseButton.setLayout(new FlowLayout());
+        addCourseButton.addActionListener(this);
 
         deleteCoursePanel = new JPanel();
-        JButton deleteCourseButton = new JButton("Delete Course     ");
-        JTextField inputDelete = new JTextField("Name of course     ");
+        deleteCourseButton = new JButton("Delete Course     ");
+        inputDelete = new JTextField("Name of course     ");
         deleteCoursePanel.add(deleteCourseButton);
         deleteCoursePanel.add(inputDelete);
         deleteCoursePanel.setLayout(new FlowLayout());
 
         switchCoursePanel = new JPanel();
-        JButton switchButton = new JButton("Switch Courses     ");
+        switchButton = new JButton("Switch Courses     ");
         courseSelection = new JComboBox<String>();
         switchCoursePanel.add(switchButton);
         switchCoursePanel.add(courseSelection);
         switchCoursePanel.setLayout(new FlowLayout());
 
         addMarkPanel = new JPanel();
-        JButton addMarkButton = new JButton("Add Mark     ");
-        JTextField inputName, inputMark, inputWorth;
+        addMarkButton = new JButton("Add Mark     ");
         inputName = new JTextField("Evaluation Name   ");
         inputMark = new JTextField("Grade Received   ");
         inputWorth = new JTextField("Percentage (ie. 0.5)   ");
@@ -67,18 +100,17 @@ public class MainView {
         addMarkPanel.setLayout(new FlowLayout());
 
         deleteMarkPanel = new JPanel();
-        JButton deleteMarkButton = new JButton("Delete Mark     ");
-        JTextField inputMarkDelete = new JTextField("Mark to delete     ");
+        deleteMarkButton = new JButton("Delete Mark     ");
+        inputMarkDelete = new JTextField("Mark to delete     ");
         deleteMarkPanel.add(deleteMarkButton);
         deleteMarkPanel.add(inputMarkDelete);
         deleteMarkPanel.setLayout(new FlowLayout());
 
         averagePanel = new JPanel();
-        JLabel averageLabel = new JLabel("Average for this course: ");
-        JLabel averageItself = new JLabel("0");
+        averageLabel = new JLabel("Average for this course: ");
+        averageItself = new JLabel("0");
         averagePanel.add(averageLabel);
         averagePanel.add(averageItself);
-
 
         topPanel.add(addCoursePanel);
         topPanel.add(addMarkPanel);
@@ -90,8 +122,6 @@ public class MainView {
         topPanel.setBounds(0, 0, (int)screenWidth, (int)screenHeight/4);
         topPanel.setBorder(BorderFactory.createLineBorder(Color.black));
         topPanel.setVisible(true);
-
-
 
         bottomPanel = new JPanel();
         bottomPanel.setBounds(0, (int)screenHeight/4, (int)screenWidth, ((int)screenHeight/4)*3);
@@ -107,7 +137,25 @@ public class MainView {
 
     }
 
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == addCourseButton) {
+            String courseName = inputNewCourse.getText();
+            if (copyOfCourses.addCourse(courseName)) {
+                Popup success = new ConfirmPopup();
+                success.display();
+            } else {
+                Popup errorMsg = new ErrorPopup();
+                errorMsg.display();
+            }
+        }
+    }
+
     public static void main(String[] args) {
-        MainView tmp = new MainView();
+        try {
+            MainView tmp = new MainView();
+        } catch (Exception e) {
+            System.out.println("Something is very very wrong...");
+        }
+        
     }
 }

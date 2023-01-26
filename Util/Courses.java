@@ -1,8 +1,11 @@
 import java.io.Serializable;
+import java.io.BufferedReader;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.ObjectOutputStream;
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
 import java.util.HashMap;
-
 
 public class Courses implements Serializable {
     
@@ -21,6 +24,7 @@ public class Courses implements Serializable {
             return false;
         } else {
             courses.put(courseName, new Course(courseName));
+            this.writeToDatabase(MainView.databaseFilePath);
             return true;
         }
     }
@@ -34,7 +38,7 @@ public class Courses implements Serializable {
         }
     }
 
-    public void writeToDatabase(String filePath) {
+    private void writeToDatabase(String filePath) {
         try {
             FileOutputStream fileOut = new FileOutputStream(filePath);
             ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
@@ -45,5 +49,19 @@ public class Courses implements Serializable {
             errorMsg.display();
         }
     }
-    
+
+    public static Courses readFromDatabase(String fileName) {
+        try {
+            FileInputStream fileIn = new FileInputStream(fileName);
+            ObjectInputStream objectIn = new ObjectInputStream(fileIn);
+            Courses reference = (Courses) objectIn.readObject();
+            objectIn.close();
+            return reference;
+        } catch (Exception e) {
+            Popup error = new ErrorPopup();
+            error.display();
+            return null;
+        }
+    }
+
 }

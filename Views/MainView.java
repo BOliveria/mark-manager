@@ -80,6 +80,7 @@ public class MainView implements ActionListener{
         deleteCoursePanel.add(deleteCourseButton);
         deleteCoursePanel.add(inputDelete);
         deleteCoursePanel.setLayout(new FlowLayout());
+        deleteCourseButton.addActionListener(this);
 
         switchCoursePanel = new JPanel();
         switchButton = new JButton("Switch Courses     ");
@@ -150,6 +151,20 @@ public class MainView implements ActionListener{
                     popup.display();
                 } else {
                     Popup popup = new DupePopup();
+                    popup.display();
+                }
+            }
+        } else if (e.getSource() == deleteCourseButton) {
+            String deleteName = inputDelete.getText();
+            if (deleteName.equals("")) {
+                Popup popup = new InvalidPopup();
+                popup.display();
+            } else {
+                if (copyOfCourses.deleteCourse(deleteName)) {
+                    Popup popup = new RemoveConfirmPopup();
+                    popup.display();
+                } else {
+                    Popup popup = new NullPopup();
                     popup.display();
                 }
             }

@@ -138,14 +138,20 @@ public class MainView implements ActionListener{
     }
 
     public void actionPerformed(ActionEvent e) {
+
         if (e.getSource() == addCourseButton) {
-            String courseName = inputNewCourse.getText();
-            if (copyOfCourses.addCourse(courseName)) {
-                Popup success = new ConfirmPopup();
-                success.display();
+            String newCourseName = inputNewCourse.getText();
+            if (newCourseName.equals("")) {
+                Popup popup = new InvalidPopup();
+                popup.display();
             } else {
-                Popup errorMsg = new ErrorPopup();
-                errorMsg.display();
+                if (copyOfCourses.addCourse(newCourseName)) {
+                    Popup popup = new ConfirmPopup();
+                    popup.display();
+                } else {
+                    Popup popup = new DupePopup();
+                    popup.display();
+                }
             }
         }
     }

@@ -30,13 +30,14 @@ public class Courses implements Serializable {
     public boolean deleteCourse(String courseName) {
         if (courses.containsKey(courseName)) {
             courses.remove(courseName);
+            this.writeToDatabase(MainView.databaseFilePath);
             return true;
         } else {
             return false;
         }
     }
 
-    private void writeToDatabase(String filePath) {
+    public void writeToDatabase(String filePath) {
         try {
             FileOutputStream fileOut = new FileOutputStream(filePath);
             ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);

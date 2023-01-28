@@ -1,9 +1,12 @@
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.HashMap;
+
 
 public class MainView implements ActionListener{
 
@@ -39,10 +42,14 @@ public class MainView implements ActionListener{
     private double screenWidth;
     private double screenHeight;
 
-    private JComboBox courseSelection;
+    private JComboBox<String> courseSelection = new JComboBox<String>();
     private Course state;
     private Courses copyOfCourses;
     public static String databaseFilePath;
+
+    JTable table;
+    DefaultTableModel model;
+    JScrollPane scrollPane;
     
     MainView() throws IOException {
 
@@ -54,6 +61,9 @@ public class MainView implements ActionListener{
             br.close();
         } else {
             copyOfCourses = Courses.readFromDatabase(databaseFilePath);
+            for (Course courseName : copyOfCourses.getCourses().values()) {
+                courseSelection.addItem(courseName.getName());
+            }
             br.close();
         }
 
@@ -84,10 +94,10 @@ public class MainView implements ActionListener{
 
         switchCoursePanel = new JPanel();
         switchButton = new JButton("Switch Courses     ");
-        courseSelection = new JComboBox<String>();
         switchCoursePanel.add(switchButton);
         switchCoursePanel.add(courseSelection);
         switchCoursePanel.setLayout(new FlowLayout());
+        switchButton.addActionListener(this);
 
         addMarkPanel = new JPanel();
         addMarkButton = new JButton("Add Mark     ");
@@ -99,6 +109,7 @@ public class MainView implements ActionListener{
         addMarkPanel.add(inputMark);
         addMarkPanel.add(inputWorth);
         addMarkPanel.setLayout(new FlowLayout());
+        addMarkButton.addActionListener(this);
 
         deleteMarkPanel = new JPanel();
         deleteMarkButton = new JButton("Delete Mark     ");
@@ -106,6 +117,7 @@ public class MainView implements ActionListener{
         deleteMarkPanel.add(deleteMarkButton);
         deleteMarkPanel.add(inputMarkDelete);
         deleteMarkPanel.setLayout(new FlowLayout());
+        deleteMarkButton.addActionListener(this);
 
         averagePanel = new JPanel();
         averageLabel = new JLabel("Average for this course: ");
@@ -124,10 +136,22 @@ public class MainView implements ActionListener{
         topPanel.setBorder(BorderFactory.createLineBorder(Color.black));
         topPanel.setVisible(true);
 
+        table = new JTable(1, 3);
+        table.getColumnModel().getColumn(0).setHeaderValue("Evaluation Name");
+        table.getColumnModel().getColumn(1).setHeaderValue("Evaluation Mark Received");
+        table.getColumnModel().getColumn(2).setHeaderValue("Evaluation Percentage/Worth");
+        table.setGridColor(Color.BLACK);
+        table.setShowGrid(true);
+        model = (DefaultTableModel) table.getModel();
+        scrollPane = new JScrollPane(table, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+        
         bottomPanel = new JPanel();
+        bottomPanel.setLayout(new BorderLayout());
+        bottomPanel.add(scrollPane, BorderLayout.CENTER);
         bottomPanel.setBounds(0, (int)screenHeight/4, (int)screenWidth, ((int)screenHeight/4)*3);
         bottomPanel.setBorder(BorderFactory.createLineBorder(Color.black));
         bottomPanel.setVisible(true);
+        bottomPanel.setBackground(Color.black);
 
         mainWindow.add(topPanel);
         mainWindow.add(bottomPanel);
@@ -148,6 +172,7 @@ public class MainView implements ActionListener{
             } else {
                 if (copyOfCourses.addCourse(newCourseName)) {
                     Popup popup = new ConfirmPopup();
+                    courseSelection.addItem(newCourseName);
                     popup.display();
                 } else {
                     Popup popup = new DupePopup();
@@ -162,6 +187,68 @@ public class MainView implements ActionListener{
             } else {
                 if (copyOfCourses.deleteCourse(deleteName)) {
                     Popup popup = new RemoveConfirmPopup();
+                    courseSelection.removeItem(deleteName);
+                    popup.display();
+                } else {
+                    Popup popup = new NullPopup();
+                    popup.display();
+                }
+            }
+        } else if (e.getSource() == switchButton) {
+            String courseSwitch = (String) courseSelection.getSelectedItem();
+            state = copyOfCourses.getCourses().get(courseSwitch);
+            model.setRowCount(0);
+
+            HashMap<String, Mark> tmp = state.getMarks();
+            for (Mark mark : tmp.values()) {
+                String name = mark.getName();
+                String grade = Double.toString(mark.getMark());
+                String worth = Double.toString(mark.getPercentage());
+                String[] values = {name, grade, worth};
+                model.addRow(values);
+            }
+        
+            Popup popup = new SwitchPopup(courseSwitch);
+            popup.display();
+
+        } else if (e.getSource() == addMarkButton) {
+            String markName = inputName.getText();
+            String tmp1 = inputMark.getText();
+            String tmp2 = inputWorth.getText();
+
+            if (markName.equals("") || tmp1.equals("") || tmp2.equals("")) {
+                Popup popup = new InvalidPopup();
+                popup.display();
+            } else {
+                double mark = Double.valueOf(inputMark.getText());
+                double percentage = Double.valueOf(inputWorth.getText());
+                if (state.addMark(markName, mark, percentage)) {
+                    copyOfCourses.writeToDatabase(databaseFilePath);
+                    String[] values = {markName, tmp1, tmp2};
+                    model.addRow(values);
+                    Popup popup = new ConfirmPopup();
+                    popup.display();
+                } else {
+                    Popup popup = new DupePopup();
+                    popup.display();
+                }   
+            }
+        } else if (e.getSource() == deleteMarkButton) {
+            String deleteThis = inputMarkDelete.getText();
+            if (deleteThis.equals("")) {
+                Popup popup = new InvalidPopup();
+                popup.display();
+            } else {
+                if (state.deleteMark(deleteThis)) {
+                    for (int i = 0; i < model.getRowCount(); i++) {
+                        String tmp = (String)model.getValueAt(i, 0);
+                        if (tmp.equals(deleteThis)) {
+                            model.removeRow(i);
+                            break;
+                        }
+                    }
+                    copyOfCourses.writeToDatabase(deleteThis);
+                    Popup popup = new RemoveConfirmPopup();
                     popup.display();
                 } else {
                     Popup popup = new NullPopup();
@@ -175,7 +262,7 @@ public class MainView implements ActionListener{
         try {
             MainView tmp = new MainView();
         } catch (Exception e) {
-            System.out.println("Something is very very wrong...");
+            e.printStackTrace();
         }
         
     }

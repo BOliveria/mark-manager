@@ -207,7 +207,7 @@ public class MainView implements ActionListener{
                 String[] values = {name, grade, worth};
                 model.addRow(values);
             }
-        
+            this.updateAverage();
             Popup popup = new SwitchPopup(courseSwitch);
             popup.display();
 
@@ -228,6 +228,7 @@ public class MainView implements ActionListener{
                     model.addRow(values);
                     Popup popup = new ConfirmPopup();
                     popup.display();
+                    this.updateAverage();
                 } else {
                     Popup popup = new DupePopup();
                     popup.display();
@@ -250,12 +251,19 @@ public class MainView implements ActionListener{
                     copyOfCourses.writeToDatabase(deleteThis);
                     Popup popup = new RemoveConfirmPopup();
                     popup.display();
+                    this.updateAverage();
                 } else {
                     Popup popup = new NullPopup();
                     popup.display();
                 }
             }
         }
+    }
+
+    private void updateAverage() {
+        double average = state.calculateAverage();
+        String tmpAverage = Double.toString(average);
+        averageItself.setText(tmpAverage);
     }
 
     public static void main(String[] args) {

@@ -1,16 +1,15 @@
-<diagram program="umletino" version="15.0.0"><zoom_level>10</zoom_level><element><id>UMLClass</id><coordinates><x>440</x><y>0</y><w>100</w><h>30</h></coordinates><panel_attributes>User</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>780</x><y>220</y><w>150</w><h>40</h></coordinates><panel_attributes>Database (txt file)</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>670</x><y>580</y><w>350</w><h>200</h></coordinates><panel_attributes>Course
+<diagram program="umletino" version="15.0.0"><zoom_level>10</zoom_level><help_text>Space for diagram notes</help_text><element><id>UMLClass</id><coordinates><x>592</x><y>25</y><w>100</w><h>30</h></coordinates><panel_attributes>User</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>932</x><y>245</y><w>150</w><h>40</h></coordinates><panel_attributes>Database (txt file)</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>822</x><y>605</y><w>350</w><h>180</h></coordinates><panel_attributes>Course
 Package::Util
 --
 - courseName : String
 - marks : HashMap&lt;String, Mark&gt;
 - average : float
 --
-- calculateAverage() : float
++ calculateAverage() : float
 + getName() : String
 + getMarks() : HashMap&lt;String, Mark&gt;
-+ getAverage() : float
 + addMark(String name, float mark, float percent) : boolean
-+ deleteMark(String name) : boolean</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>340</x><y>590</y><w>180</w><h>150</h></coordinates><panel_attributes>Mark
++ deleteMark(String name) : boolean</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>492</x><y>615</y><w>180</w><h>150</h></coordinates><panel_attributes>Mark
 Package::Util
 --
 - markName : String
@@ -19,43 +18,46 @@ Package::Util
 --
 + getMark() : float
 + getName() : String
-+ getPercentage() : float</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>720</x><y>350</y><w>260</w><h>130</h></coordinates><panel_attributes>Courses *Visitor Design*
++ getPercentage() : float</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>872</x><y>375</y><w>280</w><h>140</h></coordinates><panel_attributes>Courses
 Package::Util
 --
 - courses : hashMap&lt;String, Course&gt;
 --
 + getCourses() : hashMap&lt;String, Course&gt;
-+ getCourse(String courseName) : Course
 + addCourse(String name) : boolean
-+ deleteCourse(String name) : boolean</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>340</x><y>150</y><w>280</w><h>170</h></coordinates><panel_attributes>MainView *State, Singleton Design*
++ deleteCourse(String name) : boolean
++ writeToDatabase(String filePath) : void
++ readFromDatabase(String fileName) : Courses</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>492</x><y>175</y><w>280</w><h>140</h></coordinates><panel_attributes>MainView
 Package::View
 --
-- GUI_Elements : Java *Command Design*
-- courseState : Course
-- copyOfCourseList : Courses
-- database : String
+- GUI_Elements : Java 
+- state : Course
+- copyOfCourses : Courses
+- databaseFilePat : String
 --
-- refresh() : void
-- close() : void **For closing the txt file**
-- switch(String courseName) : void</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>10</x><y>190</y><w>180</w><h>90</h></coordinates><panel_attributes>PopupView *Builder Design*
+- updateAverage() : void
+- actionPerformed(ActionEvent e) : void</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>162</x><y>215</y><w>180</w><h>130</h></coordinates><panel_attributes>Popup
 Package::View
 --
-- GUI_Elements : Java
+- window : JFrame
+- message : JLabel
+- windowHeight : double
+- windowWidth : double
 --
-- display() : void</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>480</x><y>20</y><w>70</w><h>150</h></coordinates><panel_attributes>lt=-
+- display() : void</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>632</x><y>45</y><w>70</w><h>150</h></coordinates><panel_attributes>lt=-
 m1=1
 m2=1
-Uses v</panel_attributes><additional_attributes>10;10;10;130</additional_attributes></element><element><id>Relation</id><coordinates><x>180</x><y>220</y><w>180</w><h>40</h></coordinates><panel_attributes>lt=&lt;.
-Calls when needed</panel_attributes><additional_attributes>10;20;160;20</additional_attributes></element><element><id>UMLClass</id><coordinates><x>0</x><y>100</y><w>130</w><h>40</h></coordinates><panel_attributes>ConfirmationPopup</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>150</x><y>100</y><w>80</w><h>40</h></coordinates><panel_attributes>ErrorPopup</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>140</x><y>130</y><w>70</w><h>80</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>50;10;50;40;10;40;10;60</additional_attributes></element><element><id>Relation</id><coordinates><x>10</x><y>130</y><w>90</w><h>80</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;40;70;40;70;60</additional_attributes></element><element><id>Relation</id><coordinates><x>610</x><y>220</y><w>190</w><h>50</h></coordinates><panel_attributes>lt=-
+Uses v</panel_attributes><additional_attributes>10;10;10;130</additional_attributes></element><element><id>Relation</id><coordinates><x>332</x><y>245</y><w>180</w><h>40</h></coordinates><panel_attributes>lt=&lt;.
+Calls when needed</panel_attributes><additional_attributes>10;20;160;20</additional_attributes></element><element><id>Relation</id><coordinates><x>762</x><y>245</y><w>190</w><h>50</h></coordinates><panel_attributes>lt=-
 m1=1
 m2=1
-Reads from &gt;</panel_attributes><additional_attributes>10;20;170;20</additional_attributes></element><element><id>Relation</id><coordinates><x>840</x><y>250</y><w>90</w><h>120</h></coordinates><panel_attributes>lt=-
+Reads from &gt;</panel_attributes><additional_attributes>10;20;170;20</additional_attributes></element><element><id>Relation</id><coordinates><x>992</x><y>275</y><w>90</w><h>120</h></coordinates><panel_attributes>lt=-
 m1=1
 m2=1
-Contains v</panel_attributes><additional_attributes>10;10;10;100</additional_attributes></element><element><id>Relation</id><coordinates><x>840</x><y>470</y><w>90</w><h>130</h></coordinates><panel_attributes>lt=-
+Contains v</panel_attributes><additional_attributes>10;10;10;100</additional_attributes></element><element><id>Relation</id><coordinates><x>992</x><y>505</y><w>90</w><h>120</h></coordinates><panel_attributes>lt=-
 m1=1
 m2=0..*
-Contains v</panel_attributes><additional_attributes>10;10;10;110</additional_attributes></element><element><id>Relation</id><coordinates><x>510</x><y>670</y><w>180</w><h>50</h></coordinates><panel_attributes>lt=-
+Contains v</panel_attributes><additional_attributes>10;10;10;100</additional_attributes></element><element><id>Relation</id><coordinates><x>662</x><y>695</y><w>180</w><h>50</h></coordinates><panel_attributes>lt=-
 m1=1
 m2=0..*
-&lt; Contains</panel_attributes><additional_attributes>160;20;10;20</additional_attributes></element></diagram>
+&lt; Contains</panel_attributes><additional_attributes>160;20;10;20</additional_attributes></element><element><id>Relation</id><coordinates><x>172</x><y>155</y><w>30</w><h>80</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;60</additional_attributes></element><element><id>UMLClass</id><coordinates><x>132</x><y>135</y><w>100</w><h>30</h></coordinates><panel_attributes>ConfirmPopup</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>192</x><y>85</y><w>100</w><h>30</h></coordinates><panel_attributes>DupePopup</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>232</x><y>105</y><w>30</w><h>130</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;110</additional_attributes></element><element><id>Relation</id><coordinates><x>302</x><y>155</y><w>30</w><h>80</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;60</additional_attributes></element><element><id>UMLClass</id><coordinates><x>262</x><y>135</y><w>100</w><h>30</h></coordinates><panel_attributes>ErrorPopup</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>172</x><y>335</y><w>30</w><h>70</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;50;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>132</x><y>385</y><w>100</w><h>30</h></coordinates><panel_attributes>InvalidPopup</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>202</x><y>435</y><w>100</w><h>30</h></coordinates><panel_attributes>NullPopup</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>242</x><y>335</y><w>30</w><h>120</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;100;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>272</x><y>385</y><w>100</w><h>30</h></coordinates><panel_attributes>SwitchPopup</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>302</x><y>335</y><w>30</w><h>70</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;50;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>332</x><y>275</y><w>110</w><h>60</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>90;40;90;10;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>352</x><y>315</y><w>130</w><h>30</h></coordinates><panel_attributes>RemoveConfirmPopup</panel_attributes><additional_attributes></additional_attributes></element></diagram>
